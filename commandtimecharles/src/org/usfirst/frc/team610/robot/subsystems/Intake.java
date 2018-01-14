@@ -6,7 +6,9 @@ import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class Intake {
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+public class Intake extends Subsystem {
 
 	public static Intake instance;
 	private TalonSRX leftIntake, rightIntake;
@@ -38,6 +40,9 @@ public class Intake {
 		rightIntake.getControlMode(); 
 	}
 	 
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub	
+	}
 	
 }
 

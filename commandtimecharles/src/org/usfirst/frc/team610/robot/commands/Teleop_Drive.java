@@ -22,6 +22,8 @@ public class Teleop_Drive extends Command {
 	public Teleop_Drive() {
 		oi = OI.getInstance(); 
 		driveTrain = DriveTrain.getInstance();
+		
+		requires(driveTrain);
 	}
 	
 	protected void initialize() {

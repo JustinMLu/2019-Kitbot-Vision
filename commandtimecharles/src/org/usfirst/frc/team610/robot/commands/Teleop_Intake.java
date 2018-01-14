@@ -16,6 +16,8 @@ public class Teleop_Intake extends Command {
     public Teleop_Intake() {
        oi = OI.getInstance();
        intake = Intake.getInstance();
+       
+       requires(intake);
     }
 
     // Called just before this Command runs the first time
