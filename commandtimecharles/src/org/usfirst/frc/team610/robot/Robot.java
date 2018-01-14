@@ -2,14 +2,17 @@
 package org.usfirst.frc.team610.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.Intake;
+import org.usfirst.frc.team610.robot.commands.Teleop;
 import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
+import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
 
 
 /**
@@ -21,8 +24,10 @@ import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
  */
 public class Robot extends IterativeRobot {
 
-	Command teleop;
+	CommandGroup teleop;
 	public static OI oi;
+	private DriveTrain driveTrain;
+	private Intake intake;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,8 +36,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		oi = OI.getInstance(); //i dont think this is needed
-		teleop = new Teleop_Drive();
+		oi = OI.getInstance(); 
+		teleop = new Teleop();
+		
+		driveTrain = DriveTrain.getInstance();
+		intake = Intake.getInstance();
+		
 	}
 
 	/**
@@ -42,12 +51,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		teleop.cancel();
-
 	}
 
 	@Override
 	public void disabledPeriodic() {
+		//implemented workaround
+		driveTrain.workAround();
+		intake.workAround();
+		
 		Scheduler.getInstance().run();
 	}
 

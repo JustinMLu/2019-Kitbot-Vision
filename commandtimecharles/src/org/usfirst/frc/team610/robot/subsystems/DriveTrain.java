@@ -1,12 +1,14 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
-import org.usfirst.frc.team610.robot.OI;
+
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
-import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
+
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -15,9 +17,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 
 	private static DriveTrain instance;
-	private OI oi;
-	private Victor left, right;
+	private TalonSRX left, right;
+
 	private Encoder leftEnc, rightEnc;
+	
 	
 	public static DriveTrain getInstance() {
 		if (instance == null) {
@@ -27,30 +30,29 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	private DriveTrain() {
-		oi = OI.getInstance();
 		
-		left = new Victor(ElectricalConstants.DRIVE_LEFT);
-		right = new Victor(ElectricalConstants.DRIVE_RIGHT);
+		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
+		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
 		
 		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B, false);
 		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B, false);
 	}
+
 	
 	public void setLeft(double speed) {
-		left.set(speed);
+		left.set(ControlMode.PercentOutput, speed);
 	}
 	
 	public void setRight(double speed) {
-		right.set(speed);
+		right.set(ControlMode.PercentOutput, speed);
 	}
 	
-	public void drive(double speedFactor) {
-		double y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
-		double x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
-		
-		setLeft((y - x) * speedFactor);
-		setRight(-(y + x) * speedFactor);
+	
+	public void workAround() {
+		left.getControlMode(); //idk if this works lol
+		right.getControlMode();
 	}
+	
 	
 	public double getLeftInches() {
 		return leftEnc.getDistance();
@@ -73,9 +75,9 @@ public class DriveTrain extends Subsystem {
 		leftEnc.reset();
 	}
 	
+	
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 }

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.Robot;
+import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 /**
@@ -15,9 +16,12 @@ public class Teleop_Drive extends Command {
 	private OI oi;
 	private DriveTrain driveTrain;
 	
+	double y;
+	double x;
+	
 	public Teleop_Drive() {
-		oi = OI.getInstance(); //singleton instance - use getter instead of initializing new instance
-		driveTrain = DriveTrain.getInstance(); //same thing
+		oi = OI.getInstance(); 
+		driveTrain = DriveTrain.getInstance();
 	}
 	
 	protected void initialize() {
@@ -27,9 +31,13 @@ public class Teleop_Drive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		driveTrain.drive(1); 
 		
-		SmartDashboard.putString("Good Meme", "Moose Goose");
+		y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
+		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
+		
+		driveTrain.setLeft(-(y + x));
+		driveTrain.setRight((y - x));
+		
 		SmartDashboard.putNumber("leftRPM", Math.abs(driveTrain.getLeftRPM()));
 		SmartDashboard.putNumber("rightRPM", Math.abs(driveTrain.getRightRPM()));
 		
