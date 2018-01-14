@@ -23,10 +23,10 @@ public class Teleop_Drive extends Command {
 		driveTrain = DriveTrain.getInstance();
 		
 		requires(driveTrain);
+		driveTrain.resetEnc();
 	}
 	
 	protected void initialize() {
-		driveTrain.resetEnc();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
