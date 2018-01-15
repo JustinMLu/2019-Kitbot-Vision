@@ -52,7 +52,7 @@ public class DriveTrain extends Subsystem implements TalonWork {
 		return -left.getSensorCollection().getQuadraturePosition();
 	}
 	
-	//might need to be inverted - not checked yet
+	//might need to be inverted: not checked yet
 	public int getRightEnc() {
 		return right.getSensorCollection().getQuadraturePosition();
 	}
