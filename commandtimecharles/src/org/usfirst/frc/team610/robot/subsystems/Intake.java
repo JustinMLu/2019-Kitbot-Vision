@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Intake extends Subsystem {
+public class Intake extends Subsystem { //but y
 
 	public static Intake instance;
 	private TalonSRX leftIntake, rightIntake;
