@@ -36,6 +36,8 @@ public class DriveTrain extends Subsystem {
 		
 		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B, false);
 		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B, false);
+		
+		left.setInverted(true);
 	}
 
 	

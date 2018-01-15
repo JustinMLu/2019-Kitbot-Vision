@@ -36,8 +36,8 @@ public class Teleop_Drive extends Command {
 		y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
 		
-		driveTrain.setLeft(-(y + x));
-		driveTrain.setRight((y - x));
+		driveTrain.setLeft(y + x); //set to -(y + x) if not working
+		driveTrain.setRight(y - x);
 		
 		SmartDashboard.putNumber("leftRPM", Math.abs(driveTrain.getLeftRPM()));
 		SmartDashboard.putNumber("rightRPM", Math.abs(driveTrain.getRightRPM()));
