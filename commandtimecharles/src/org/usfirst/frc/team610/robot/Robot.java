@@ -56,8 +56,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		//implemented workaround
-		driveTrain.workAround();
-		intake.workAround();
+		driveTrain.talonWorkAround();
+		intake.talonWorkAround();
 		
 		Scheduler.getInstance().run();
 	}

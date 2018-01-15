@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem implements TalonWork {
 
 	private static DriveTrain instance;
 	private TalonSRX left, right;
@@ -49,13 +49,6 @@ public class DriveTrain extends Subsystem {
 		right.set(ControlMode.PercentOutput, speed);
 	}
 	
-	
-	public void workAround() {
-		left.getControlMode(); //idk if this works lol
-		right.getControlMode();
-	}
-	
-	
 	public double getLeftInches() {
 		return leftEnc.getDistance();
 	}
@@ -80,6 +73,12 @@ public class DriveTrain extends Subsystem {
 	
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void talonWorkAround() {
+		left.getControlMode(); //idk if this works lol
+		right.getControlMode();
 	}
 
 }
