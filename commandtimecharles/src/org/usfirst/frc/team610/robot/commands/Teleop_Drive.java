@@ -15,15 +15,14 @@ public class Teleop_Drive extends Command {
 	private OI oi;
 	private DriveTrain driveTrain;
 	
-	double y;
 	double x;
+	double y;
 	
 	public Teleop_Drive() {
 		oi = OI.getInstance(); 
 		driveTrain = DriveTrain.getInstance();
 		
 		requires(driveTrain);
-		driveTrain.resetEnc();
 	}
 	
 	protected void initialize() {
@@ -39,11 +38,9 @@ public class Teleop_Drive extends Command {
 		driveTrain.setLeft(y + x); //set to -(y + x) if not working
 		driveTrain.setRight(y - x);
 		
-		SmartDashboard.putNumber("leftRPM", Math.abs(driveTrain.getLeftRPM()));
-		SmartDashboard.putNumber("rightRPM", Math.abs(driveTrain.getRightRPM()));
 		
-		SmartDashboard.putNumber("leftInches", driveTrain.getLeftInches());
-		SmartDashboard.putNumber("rightInches", driveTrain.getRightInches());
+		SmartDashboard.putNumber("Left Talon Enc:", driveTrain.getLeftEnc());
+		SmartDashboard.putNumber("Right Talon Enc:", driveTrain.getRightEnc());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

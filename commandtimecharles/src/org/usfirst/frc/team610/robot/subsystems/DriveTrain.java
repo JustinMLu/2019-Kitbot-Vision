@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,8 +17,6 @@ public class DriveTrain extends Subsystem implements TalonWork {
 
 	private static DriveTrain instance;
 	private TalonSRX left, right;
-
-	private Encoder leftEnc, rightEnc;
 	
 	
 	public static DriveTrain getInstance() {
@@ -33,9 +30,7 @@ public class DriveTrain extends Subsystem implements TalonWork {
 		
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
-		
-		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B, false);
-		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B, false);
+
 		
 		left.setInverted(true);
 	}
@@ -49,26 +44,19 @@ public class DriveTrain extends Subsystem implements TalonWork {
 		right.set(ControlMode.PercentOutput, speed);
 	}
 	
-	public double getLeftInches() {
-		return leftEnc.getDistance();
+	public TalonSRX getLeftTalon() {
+		return left;
+	}
+	
+	public int getLeftEnc() {
+		return -left.getSensorCollection().getQuadraturePosition();
+	}
+	
+	//might need to be inverted - not checked yet
+	public int getRightEnc() {
+		return right.getSensorCollection().getQuadraturePosition();
 	}
 
-	public double getRightInches() {
-		return rightEnc.getDistance();
-	}
-
-	public double getRightRPM() {
-		return rightEnc.getRate();
-	}
-
-	public double getLeftRPM() {
-		return rightEnc.getRate();
-	}
-
-	public void resetEnc() {
-		rightEnc.reset();
-		leftEnc.reset();
-	}
 	
 	
 	protected void initDefaultCommand() {
