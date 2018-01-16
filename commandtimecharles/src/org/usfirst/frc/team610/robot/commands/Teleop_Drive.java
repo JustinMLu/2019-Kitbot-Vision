@@ -15,8 +15,8 @@ public class Teleop_Drive extends Command {
 	private OI oi;
 	private DriveTrain driveTrain;
 	
-	double x;
 	double y;
+	double x;
 	
 	public Teleop_Drive() {
 		oi = OI.getInstance(); 
@@ -32,15 +32,15 @@ public class Teleop_Drive extends Command {
 	@Override
 	protected void execute() {
 		
-		y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
+		y = -oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
 		
-		driveTrain.setLeft(-(y + x)); //set to -(y + x) if not working
+		driveTrain.setLeft(y + x); //set to -(y + x) if not working
 		driveTrain.setRight(y - x);
 		
 		
 		SmartDashboard.putNumber("Left Talon Enc:", driveTrain.getLeftEnc());
-		SmartDashboard.putNumber("Right Talon Enc:", driveTrain.getRightEnc());
+		SmartDashboard.putNumber("Right Talon Enc", driveTrain.getRightEnc());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

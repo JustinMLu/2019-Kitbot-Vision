@@ -30,9 +30,11 @@ public class DriveTrain extends Subsystem {
 		
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
+		
+		left.setInverted(true);
+		right.setInverted(true);
 
 	}
-
 	
 	public void setLeft(double speed) {
 		left.set(ControlMode.PercentOutput, speed);
