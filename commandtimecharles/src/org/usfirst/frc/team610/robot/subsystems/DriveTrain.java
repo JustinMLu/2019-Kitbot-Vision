@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class DriveTrain extends Subsystem implements TalonWork {
+public class DriveTrain extends Subsystem {
 
 	private static DriveTrain instance;
 	private TalonSRX left, right;
@@ -31,8 +31,6 @@ public class DriveTrain extends Subsystem implements TalonWork {
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
 
-		
-		left.setInverted(true);
 	}
 
 	
@@ -42,10 +40,6 @@ public class DriveTrain extends Subsystem implements TalonWork {
 	
 	public void setRight(double speed) {
 		right.set(ControlMode.PercentOutput, speed);
-	}
-	
-	public TalonSRX getLeftTalon() {
-		return left;
 	}
 	
 	public int getLeftEnc() {
@@ -58,15 +52,13 @@ public class DriveTrain extends Subsystem implements TalonWork {
 	}
 
 	
-	
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub	
 	}
 
-	@Override
-	public void talonWorkAround() {
-		left.getControlMode(); //idk if this works lol
-		right.getControlMode();
+	public void workAround() {
+		left.set(ControlMode.PercentOutput, 0);
+		right.set(ControlMode.PercentOutput, 0);
 	}
 
 }

@@ -35,7 +35,7 @@ public class Teleop_Drive extends Command {
 		y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
 		
-		driveTrain.setLeft(y + x); //set to -(y + x) if not working
+		driveTrain.setLeft(-(y + x)); //set to -(y + x) if not working
 		driveTrain.setRight(y - x);
 		
 		

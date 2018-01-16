@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Intake extends Subsystem implements TalonWork {  
+public class Intake extends Subsystem {  
 
 	public static Intake instance;
 	private TalonSRX leftIntake, rightIntake;
@@ -40,10 +40,9 @@ public class Intake extends Subsystem implements TalonWork {
 		// TODO Auto-generated method stub	
 	}
 
-	@Override
-	public void talonWorkAround() {
-		leftIntake.getControlMode();
-		rightIntake.getControlMode(); 
+	public void workAround() {
+		leftIntake.set(ControlMode.PercentOutput, 0);
+		rightIntake.set(ControlMode.PercentOutput, 0);
 		
 	}
 	

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team610.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,9 +26,4 @@ public class OI {
 		return driver;
 	}
 	
-	/* 
-	public double getDriverAxis(int axis) {
-		return driver.getRawAxis(axis);
-	}
-	*/
 }
