@@ -39,8 +39,11 @@ public class Teleop_Drive extends Command {
 		driveTrain.setRight(y - x);
 		
 		
-		SmartDashboard.putNumber("Left Talon Enc:", driveTrain.getLeftEncRaw());
-		SmartDashboard.putNumber("Right Talon Enc", driveTrain.getRightEncRaw());
+		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
+		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
+		
+		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
+		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

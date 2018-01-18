@@ -53,13 +53,22 @@ public class DriveTrain extends Subsystem {
 		return right.getSensorCollection().getQuadratureVelocity();
 	}
 	
-	public int getLeftEncRaw() {
-		return -left.getSensorCollection().getQuadraturePosition();
+	public double getLeftTicks() {
+		return -(left.getSensorCollection().getQuadraturePosition() / 8); //returns 128 = 1 rotation
 	}
 	
-	public int getRightEncRaw() {
-		return right.getSensorCollection().getQuadraturePosition();
+	public double getRightTicks() {
+		return right.getSensorCollection().getQuadraturePosition() / 4; //returns 128 = 1 rotation
 	}
+	
+	public double getLeftRotations() {
+		return -(left.getSensorCollection().getQuadraturePosition() / 1024);
+	}
+	
+	public double getRightRotations() {
+		return right.getSensorCollection().getQuadraturePosition() / 512; 
+	}
+	
 	
 	public void resetEnc() {
 		left.getSensorCollection().setQuadraturePosition(0, 10);
