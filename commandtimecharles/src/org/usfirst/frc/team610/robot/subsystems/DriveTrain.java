@@ -44,13 +44,25 @@ public class DriveTrain extends Subsystem {
 		right.set(ControlMode.PercentOutput, speed);
 	}
 	
+	public int getLeftRPM() {
+		return left.getSensorCollection().getQuadratureVelocity() / 2;
+	}
+	
+	public int getRightRPM() {
+		return right.getSensorCollection().getQuadratureVelocity();
+	}
+	
 	public int getLeftEnc() {
 		return -left.getSensorCollection().getQuadraturePosition();
 	}
 	
-	//might need to be inverted: not checked yet
 	public int getRightEnc() {
 		return right.getSensorCollection().getQuadraturePosition();
+	}
+	
+	public void resetEnc() {
+		left.getSensorCollection().setQuadraturePosition(0, 10);
+		right.getSensorCollection().setQuadraturePosition(0, 10);
 	}
 
 	
@@ -62,5 +74,6 @@ public class DriveTrain extends Subsystem {
 		left.set(ControlMode.PercentOutput, 0);
 		right.set(ControlMode.PercentOutput, 0);
 	}
+	
 
 }

@@ -42,8 +42,10 @@ public class Robot extends IterativeRobot {
 		driveTrain = DriveTrain.getInstance();
 		intake = Intake.getInstance();
 		
+		driveTrain.resetEnc();
 	}
 
+	
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -76,6 +78,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		teleop.start();
+		driveTrain.resetEnc();
 	}
 
 	/**
