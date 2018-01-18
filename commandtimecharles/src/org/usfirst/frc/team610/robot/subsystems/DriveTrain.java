@@ -23,7 +23,7 @@ public class DriveTrain extends Subsystem {
 		if (instance == null) {
 			instance = new DriveTrain();
 		}
-		return instance; //reeee
+		return instance; 
 	}
 	
 	private DriveTrain() {
