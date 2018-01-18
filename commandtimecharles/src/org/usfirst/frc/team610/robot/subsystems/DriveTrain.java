@@ -5,6 +5,7 @@ import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -44,19 +45,19 @@ public class DriveTrain extends Subsystem {
 		right.set(ControlMode.PercentOutput, speed);
 	}
 	
-	public int getLeftRPM() {
-		return left.getSensorCollection().getQuadratureVelocity() / 2;
+	public double getLeftRPM() {
+		return left.getSensorCollection().getQuadratureVelocity() / 2.0;
 	}
 	
-	public int getRightRPM() {
+	public double getRightRPM() {
 		return right.getSensorCollection().getQuadratureVelocity();
 	}
 	
-	public int getLeftEnc() {
+	public int getLeftEncRaw() {
 		return -left.getSensorCollection().getQuadraturePosition();
 	}
 	
-	public int getRightEnc() {
+	public int getRightEncRaw() {
 		return right.getSensorCollection().getQuadraturePosition();
 	}
 	
@@ -71,8 +72,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void workAround() {
-		left.set(ControlMode.PercentOutput, 0);
-		right.set(ControlMode.PercentOutput, 0);
+		left.setNeutralMode(NeutralMode.Brake);
+		right.setNeutralMode(NeutralMode.Brake);
 	}
 	
 

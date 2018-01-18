@@ -4,6 +4,7 @@ package org.usfirst.frc.team610.robot.subsystems;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -41,8 +42,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void workAround() {
-		leftIntake.set(ControlMode.PercentOutput, 0);
-		rightIntake.set(ControlMode.PercentOutput, 0);
+		leftIntake.setNeutralMode(NeutralMode.Brake);
+		rightIntake.setNeutralMode(NeutralMode.Brake);
 		
 	}
 	
