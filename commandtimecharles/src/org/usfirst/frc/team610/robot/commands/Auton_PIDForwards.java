@@ -24,8 +24,7 @@ public class Auton_PIDForwards extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		fwdPID.PIDStraight(768, 0.1, 0.05);
-    		
+    		fwdPID.PIDStraight(768, 0.1, 0.05); 		
     }
 
     // Make this return true when this Command no longer needs to run execute()
