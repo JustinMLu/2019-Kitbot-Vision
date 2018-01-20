@@ -3,8 +3,9 @@ package org.usfirst.frc.team610.robot.subsystems;
 
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 
-
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -34,6 +35,9 @@ public class DriveTrain extends Subsystem {
 		
 		left.setInverted(true);
 		right.setInverted(true);
+		
+		left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+		right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
 	}
 	
@@ -45,28 +49,42 @@ public class DriveTrain extends Subsystem {
 		right.set(ControlMode.PercentOutput, speed);
 	}
 	
+	
+	public void setBrakeMode() {
+		left.setNeutralMode(NeutralMode.Brake);
+		right.setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setCoastMode() {
+		left.setNeutralMode(NeutralMode.Coast);
+		right.setNeutralMode(NeutralMode.Coast);
+	}
+	
+	
+	public int getLeftTicks() {
+		return -left.getSelectedSensorPosition(0) / 2; //returns 256
+	}
+	
+	public int getRightTicks() {
+		return right.getSelectedSensorPosition(0);
+	}
+	
+	
 	public double getLeftRPM() {
-		return left.getSensorCollection().getQuadratureVelocity() / 2.0;
+		return -left.getSelectedSensorVelocity(0) * 600 / 256;
 	}
 	
 	public double getRightRPM() {
-		return right.getSensorCollection().getQuadratureVelocity();
+		return right.getSelectedSensorVelocity(0) * 600 / 128;
 	}
 	
-	public double getLeftTicks() {
-		return -(left.getSensorCollection().getQuadraturePosition() / 8); //returns 128 = 1 rotation
-	}
-	
-	public double getRightTicks() {
-		return right.getSensorCollection().getQuadraturePosition() / 4; //returns 128 = 1 rotation
-	}
 	
 	public double getLeftRotations() {
-		return -(left.getSensorCollection().getQuadraturePosition() / 1024);
+		return -left.getSelectedSensorPosition(0) / 512;
 	}
 	
 	public double getRightRotations() {
-		return right.getSensorCollection().getQuadraturePosition() / 512; 
+		return right.getSelectedSensorPosition(0) / 256; 
 	}
 	
 	
@@ -81,8 +99,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void workAround() {
-		left.setNeutralMode(NeutralMode.Brake);
-		right.setNeutralMode(NeutralMode.Brake);
+		left.set(ControlMode.PercentOutput, 0);
+		right.set(ControlMode.PercentOutput, 0);
 	}
 	
 

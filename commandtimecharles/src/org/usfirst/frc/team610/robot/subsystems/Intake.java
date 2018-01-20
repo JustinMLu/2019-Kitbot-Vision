@@ -25,15 +25,23 @@ public class Intake extends Subsystem {
 	
 	
 	private Intake() {
-
 		leftIntake = new TalonSRX(ElectricalConstants.INTAKE_LEFT);
 		rightIntake = new TalonSRX(ElectricalConstants.INTAKE_RIGHT);
 	}
 	
-	
 	public void setIntake(double speed) {
 		leftIntake.set(ControlMode.PercentOutput, speed);
 		rightIntake.set(ControlMode.PercentOutput, speed);
+	}
+	
+	public void setBrakeMode() {
+		leftIntake.setNeutralMode(NeutralMode.Brake);
+		rightIntake.setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setCoastMode() {
+		leftIntake.setNeutralMode(NeutralMode.Coast);
+		rightIntake.setNeutralMode(NeutralMode.Coast);
 	}
 	
 	 
@@ -42,8 +50,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void workAround() {
-		leftIntake.setNeutralMode(NeutralMode.Brake);
-		rightIntake.setNeutralMode(NeutralMode.Brake);
+		leftIntake.set(ControlMode.PercentOutput, 0);
+		rightIntake.set(ControlMode.PercentOutput, 0);
 		
 	}
 	

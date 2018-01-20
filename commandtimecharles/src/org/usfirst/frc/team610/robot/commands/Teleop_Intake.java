@@ -28,11 +28,11 @@ public class Teleop_Intake extends Command {
     protected void execute() {
     	
     		if (oi.getDriver().getRawButton(7)) {
-			intake.setIntake(1);
+			intake.setIntake(0.75);
 		}
 		
 		else if (oi.getDriver().getRawButton(8)) {
-			intake.setIntake(-1);
+			intake.setIntake(-0.75);
 		}
 		
 		else {

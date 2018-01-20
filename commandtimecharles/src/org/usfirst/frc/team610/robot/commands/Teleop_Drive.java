@@ -32,6 +32,8 @@ public class Teleop_Drive extends Command {
 	@Override
 	protected void execute() {
 		
+		driveTrain.setBrakeMode();
+		
 		y = -oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
 		
