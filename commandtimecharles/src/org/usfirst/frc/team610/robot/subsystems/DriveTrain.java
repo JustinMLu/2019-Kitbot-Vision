@@ -45,6 +45,8 @@ public class DriveTrain extends Subsystem {
 		left.config_kI(0, 0, 10);
 		left.config_kD(0, 0, 10);
 		left.config_kF(0, 0, 10);
+		
+		left.setSensorPhase(false);
 
 		right.config_kP(0, 5, 10);
 		right.config_kI(0, 0, 10);
@@ -86,7 +88,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public int getRightTicks() {
-		return right.getSelectedSensorPosition(0);
+		return -right.getSelectedSensorPosition(0);
 	}
 	
 
@@ -95,7 +97,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public double getRightRPM() {
-		return right.getSelectedSensorVelocity(0) * 600 / 128;
+		return -right.getSelectedSensorVelocity(0) * 600 / 128;
 	}
 	
 
@@ -104,7 +106,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public double getRightRotations() {
-		return right.getSelectedSensorPosition(0) / 128;
+		return -right.getSelectedSensorPosition(0) / 128;
 	}
 	
 
