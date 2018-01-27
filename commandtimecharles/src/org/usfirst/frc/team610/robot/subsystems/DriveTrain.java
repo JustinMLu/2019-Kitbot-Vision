@@ -31,8 +31,8 @@ public class DriveTrain extends Subsystem {
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
 
-		left.setInverted(false);
-		right.setInverted(false);
+		left.setInverted(true);
+		right.setInverted(true);
 
 		left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
@@ -66,11 +66,11 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void setPIDLeft(double rotations) {
-		left.set(ControlMode.Position, -rotations * 256); //electrically reversed
+		left.set(ControlMode.Position, rotations * 256); //electrically reversed
 	}
 
 	public void setPIDRight(double rotations) {
-		right.set(ControlMode.Position, -rotations * 128);
+		right.set(ControlMode.Position, rotations * 128);
 	}
 
 	public void setBrakeMode() {
@@ -84,29 +84,29 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public int getLeftTicks() {
-		return -left.getSelectedSensorPosition(0) / 2; //returns 256
+		return left.getSelectedSensorPosition(0) / 2; //returns 256
 	}
 
 	public int getRightTicks() {
-		return -right.getSelectedSensorPosition(0); //returns 128
+		return right.getSelectedSensorPosition(0); //returns 128
 	}
 	
 
 	public double getLeftRPM() {
-		return -left.getSelectedSensorVelocity(0) * 600 / 256;
+		return left.getSelectedSensorVelocity(0) * 600 / 256;
 	}
 
 	public double getRightRPM() {
-		return -right.getSelectedSensorVelocity(0) * 600 / 128;
+		return right.getSelectedSensorVelocity(0) * 600 / 128;
 	}
 	
 
 	public double getLeftRotations() {
-		return -left.getSelectedSensorPosition(0) / 256;
+		return left.getSelectedSensorPosition(0) / 256;
 	}
 
 	public double getRightRotations() {
-		return -right.getSelectedSensorPosition(0) / 128;
+		return right.getSelectedSensorPosition(0) / 128;
 	}
 	
 
