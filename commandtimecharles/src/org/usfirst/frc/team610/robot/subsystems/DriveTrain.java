@@ -38,20 +38,20 @@ public class DriveTrain extends Subsystem {
 		right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
 
-		left.config_kP(0, 0.27, 10);
+		left.config_kP(0, 0.265, 10);
 		left.config_kI(0, 0, 10);
-		left.config_kD(0, 0, 10);
+		left.config_kD(0, 0.1, 10);
 		left.config_kF(0, 0, 10);
 		
-		left.configClosedloopRamp(0.26, 10);
+		left.configClosedloopRamp(0.27, 10);
 		left.setSensorPhase(false);
 
-		right.config_kP(0, 0.27, 10); //weird PID shit, have to halve it
+		right.config_kP(0, 0.265, 10); //weird PID shit, have to halve it
 		right.config_kI(0, 0, 10);
-		right.config_kD(0, 0, 10);
+		right.config_kD(0, 0.1, 10);
 		right.config_kF(0, 0, 10);
 		
-		right.configClosedloopRamp(0.26, 10);
+		right.configClosedloopRamp(0.27, 10);
 		right.setSensorPhase(true);
 	}
 
@@ -81,29 +81,30 @@ public class DriveTrain extends Subsystem {
 		right.setNeutralMode(NeutralMode.Coast);
 	}
 
-	public int getLeftTicks() {
-		return left.getSelectedSensorPosition(0) / 4; //returns 256, divide by 2
+	public double getLeftTicks() {
+		return left.getSelectedSensorPosition(0) / 4.0; //returns 256, divide by 2
 	}
 
-	public int getRightTicks() {
-		return right.getSelectedSensorPosition(0) / 4; 
+	public double getRightTicks() {
+		return right.getSelectedSensorPosition(0) / 4.0; 
 	}
 	
+	
 	public double getLeftRPM() {
-		return left.getSelectedSensorVelocity(0) * 600 / 256 / 4; //the 4 ticks per tick is untested right now
+		return left.getSelectedSensorVelocity(0) * 600 / 256 / 4.0; //the 4 ticks per tick is untested right now
 	}
 
 	public double getRightRPM() {
-		return right.getSelectedSensorVelocity(0) * 600 / 256 / 4;
+		return right.getSelectedSensorVelocity(0) * 600 / 256 / 4.0;
 	}
 	
 
 	public double getLeftRotations() {
-		return left.getSelectedSensorPosition(0) / (256 * 4);
+		return left.getSelectedSensorPosition(0) / (256 * 4.0);
 	}
 
 	public double getRightRotations() {
-		return right.getSelectedSensorPosition(0) / (256 * 4);
+		return right.getSelectedSensorPosition(0) / (256 * 4.0);
 	}
 	
 
