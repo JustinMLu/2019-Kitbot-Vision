@@ -36,8 +36,8 @@ public class Auton_PIDForwards extends Command {
 		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
 		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations());  
     	
-		driveTrain.setPIDRight(25);
-    		driveTrain.setPIDLeft(25);		
+		driveTrain.setPIDRight(5);
+    		driveTrain.setPIDLeft(5);
     }
 
     // Make this return true when this Command no longer needs to run execute()

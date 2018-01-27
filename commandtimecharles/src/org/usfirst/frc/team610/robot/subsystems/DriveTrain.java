@@ -36,25 +36,23 @@ public class DriveTrain extends Subsystem {
 
 		left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-		
-		left.configOpenloopRamp(0.1, 10);
-		right.configOpenloopRamp(0.1, 10);
 
 
-		left.config_kP(0, 5, 10);
+		left.config_kP(0, 0.27, 10);
 		left.config_kI(0, 0, 10);
 		left.config_kD(0, 0, 10);
 		left.config_kF(0, 0, 10);
 		
+		left.configClosedloopRamp(0.26, 10);
 		left.setSensorPhase(false);
 
-		right.config_kP(0, 5, 10);
+		right.config_kP(0, 0.27, 10); //weird PID shit, have to halve it
 		right.config_kI(0, 0, 10);
 		right.config_kD(0, 0, 10);
 		right.config_kF(0, 0, 10);
 		
+		right.configClosedloopRamp(0.26, 10);
 		right.setSensorPhase(true);
-
 	}
 
 	public void setLeft(double speed) {
@@ -66,11 +64,11 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void setPIDLeft(double rotations) {
-		left.set(ControlMode.Position, rotations * 256); //electrically reversed
+		left.set(ControlMode.Position, rotations * 256 * 4); //electrically reversed
 	}
 
 	public void setPIDRight(double rotations) {
-		right.set(ControlMode.Position, rotations * 128);
+		right.set(ControlMode.Position, rotations * 256 * 4); //BS 1024 "encoder units"
 	}
 
 	public void setBrakeMode() {
@@ -84,29 +82,28 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public int getLeftTicks() {
-		return left.getSelectedSensorPosition(0) / 2; //returns 256
+		return left.getSelectedSensorPosition(0) / 4; //returns 256, divide by 2
 	}
 
 	public int getRightTicks() {
-		return right.getSelectedSensorPosition(0); //returns 128
+		return right.getSelectedSensorPosition(0) / 4; 
 	}
 	
-
 	public double getLeftRPM() {
-		return left.getSelectedSensorVelocity(0) * 600 / 256;
+		return left.getSelectedSensorVelocity(0) * 600 / 256 / 4; //the 4 ticks per tick is untested right now
 	}
 
 	public double getRightRPM() {
-		return right.getSelectedSensorVelocity(0) * 600 / 128;
+		return right.getSelectedSensorVelocity(0) * 600 / 256 / 4;
 	}
 	
 
 	public double getLeftRotations() {
-		return left.getSelectedSensorPosition(0) / 256;
+		return left.getSelectedSensorPosition(0) / (256 * 4);
 	}
 
 	public double getRightRotations() {
-		return right.getSelectedSensorPosition(0) / 128;
+		return right.getSelectedSensorPosition(0) / (256 * 4);
 	}
 	
 
