@@ -84,11 +84,11 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public int getLeftTicks() {
-		return -left.getSelectedSensorPosition(0) / 2; // returns 256
+		return -left.getSelectedSensorPosition(0) / 2; //returns 256
 	}
 
 	public int getRightTicks() {
-		return -right.getSelectedSensorPosition(0);
+		return -right.getSelectedSensorPosition(0); //returns 128
 	}
 	
 
