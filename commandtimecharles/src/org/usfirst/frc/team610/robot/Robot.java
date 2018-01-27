@@ -2,6 +2,7 @@
 package org.usfirst.frc.team610.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.Intake;
+import org.usfirst.frc.team610.robot.commands.Auton_PIDForwards;
 import org.usfirst.frc.team610.robot.commands.Teleop;
 import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
 import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
@@ -25,6 +27,7 @@ import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
 public class Robot extends IterativeRobot {
 
 	CommandGroup teleop;
+	Command auton;
 	public static OI oi;
 	private DriveTrain driveTrain;
 	private Intake intake;
@@ -38,11 +41,13 @@ public class Robot extends IterativeRobot {
 		
 		oi = OI.getInstance(); 
 		teleop = new Teleop();
+		auton = new Auton_PIDForwards();
 		
 		driveTrain = DriveTrain.getInstance();
 		intake = Intake.getInstance();
 		
 		driveTrain.resetEnc();
+		
 	}
 
 	
@@ -68,10 +73,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		teleop.cancel();
+		driveTrain.resetEnc();
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
+		auton.start();
 		Scheduler.getInstance().run();
 	}
 

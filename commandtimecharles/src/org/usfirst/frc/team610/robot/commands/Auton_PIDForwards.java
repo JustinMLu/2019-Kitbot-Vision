@@ -1,6 +1,9 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team610.robot.subsystems.PID;
+
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,12 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Auton_PIDForwards extends Command {
 
-	boolean commandState;
-	private PID fwdPID;
-	
+	private DriveTrain driveTrain;
+
     public Auton_PIDForwards() {
-        commandState = false;
-        fwdPID = PID.getInstance();
+        driveTrain = DriveTrain.getInstance();
+        
+        driveTrain.setBrakeMode();
+        
+        requires(driveTrain);
     }
 
     // Called just before this Command runs the first time
@@ -24,12 +29,20 @@ public class Auton_PIDForwards extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		fwdPID.PIDStraight(768, 0.1, 0.05); 		
+    	
+    		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
+		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
+		
+		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
+		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations());  
+    	
+		driveTrain.setPIDRight(25);
+    		driveTrain.setPIDLeft(25);		
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return commandState;
+        return false;
     }
 
     // Called once after isFinished returns true

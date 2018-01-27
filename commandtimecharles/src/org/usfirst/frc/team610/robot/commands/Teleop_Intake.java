@@ -17,6 +17,8 @@ public class Teleop_Intake extends Command {
        oi = OI.getInstance();
        intake = Intake.getInstance();
        
+       intake.setBrakeMode();
+       
        requires(intake); 
     }
 
