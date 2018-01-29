@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.Intake;
+import org.usfirst.frc.team610.robot.commands.Auton_CommandPID;
 import org.usfirst.frc.team610.robot.commands.Auton_PIDForwards;
 import org.usfirst.frc.team610.robot.commands.Teleop;
 import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
@@ -27,7 +28,8 @@ import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
 public class Robot extends IterativeRobot {
 
 	CommandGroup teleop;
-	Command auton;
+	Command auton, customAuton;
+	
 	public static OI oi;
 	private DriveTrain driveTrain;
 	private Intake intake;
@@ -39,9 +41,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		oi = OI.getInstance(); 
+		oi = OI.getInstance();
+		
 		teleop = new Teleop();
 		auton = new Auton_PIDForwards();
+		customAuton = new Auton_CommandPID();
 		
 		driveTrain = DriveTrain.getInstance();
 		intake = Intake.getInstance();
@@ -73,18 +77,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		teleop.cancel();
+		auton.start();
 		driveTrain.resetEnc();
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		auton.start();
 		Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void teleopInit() {
 		teleop.start();
+		auton.cancel();
 		driveTrain.resetEnc();
 	}
 

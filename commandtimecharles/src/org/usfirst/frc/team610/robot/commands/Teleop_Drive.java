@@ -60,7 +60,7 @@ public class Teleop_Drive extends Command {
 		SmartDashboard.putNumber("VelocityY:", navX.getVelocityY());
 		SmartDashboard.putNumber("VelocityZ:", navX.getVelocityZ());
 		
-		
+		System.out.println("NavX:" + navX.getAngle());	
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

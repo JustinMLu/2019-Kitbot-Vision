@@ -43,7 +43,7 @@ public class DriveTrain extends Subsystem {
 		left.config_kD(0, 0.1, 10);
 		left.config_kF(0, 0, 10);
 		
-		left.configClosedloopRamp(0.27, 10);
+		
 		left.setSensorPhase(false);
 
 		right.config_kP(0, 0.265, 10); //weird PID shit, have to halve it
@@ -51,7 +51,6 @@ public class DriveTrain extends Subsystem {
 		right.config_kD(0, 0.1, 10);
 		right.config_kF(0, 0, 10);
 		
-		right.configClosedloopRamp(0.27, 10);
 		right.setSensorPhase(true);
 	}
 
@@ -79,6 +78,16 @@ public class DriveTrain extends Subsystem {
 	public void setCoastMode() {
 		left.setNeutralMode(NeutralMode.Coast);
 		right.setNeutralMode(NeutralMode.Coast);
+	}
+	
+	public void setClosedRampMode(double ramp, int timeout) {
+		left.configClosedloopRamp(ramp, timeout); 
+		right.configClosedloopRamp(ramp, timeout);
+	}
+	
+	public void setOpenRampMode(double ramp, int timeout) {
+		left.configOpenloopRamp(ramp, timeout);
+		right.configOpenloopRamp(ramp, timeout);
 	}
 
 	public double getLeftTicks() {

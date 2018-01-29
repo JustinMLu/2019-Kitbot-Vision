@@ -1,29 +1,42 @@
 package org.usfirst.frc.team610.robot.commands;
 
-
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import org.usfirst.frc.team610.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class Auton_PIDForwards extends Command {
+public class Auton_PIDTurn extends Command {
 
 	private DriveTrain driveTrain;
+	private NavX navX;
 	
-
-    public Auton_PIDForwards() {
+	private double targetAngle;
+	private double error;
+	private double prevError;
+	private double motorPower;
+	private double iCounter;
+	
+	private double p;
+	private double i;
+	private double d;
+	
+	private double Kp;
+	private double Ki;
+	private double Kd;
+	
+    public Auton_PIDTurn(double gyroAngle, double kp, double ki, double kd) {
+        navX = NavX.getInstance();
         driveTrain = DriveTrain.getInstance();
         
-        driveTrain.setBrakeMode();
+        this.targetAngle = gyroAngle;
+        this.prevError = 0;
         
-        driveTrain.setClosedRampMode(0.27, 10);
-        
-        requires(driveTrain);
+        this.Kp = kp;
+        this.Ki = ki;
+        this.Kd = kd;
     }
 
     // Called just before this Command runs the first time
@@ -33,14 +46,16 @@ public class Auton_PIDForwards extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
-		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
-		
-		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
-		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations()); 
-		
-		driveTrain.setPIDRight(5);
-    		driveTrain.setPIDLeft(5);
+    		error = targetAngle - navX.getAngle();
+    		
+    		p = Kp * error;
+    		
+    		iCounter += error;
+    		i = Ki * iCounter;
+    		d = Kd * (error - prevError);
+    		
+    		motorPower = p + i + d;
+    		prevError = error;
     }
 
     // Make this return true when this Command no longer needs to run execute()
