@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.Intake;
 import org.usfirst.frc.team610.robot.commands.Auton_CommandPID;
-import org.usfirst.frc.team610.robot.commands.Auton_PIDForwards;
+import org.usfirst.frc.team610.robot.commands.Auton_TalonPID;
 import org.usfirst.frc.team610.robot.commands.Teleop;
 import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
 import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		
 		teleop = new Teleop();
-		auton = new Auton_PIDForwards();
+		auton = new Auton_TalonPID();
 		customAuton = new Auton_CommandPID();
 		
 		driveTrain = DriveTrain.getInstance();

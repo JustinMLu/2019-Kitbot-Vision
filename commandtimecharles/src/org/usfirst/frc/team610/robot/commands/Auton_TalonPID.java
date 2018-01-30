@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Auton_PIDForwards extends Command {
+public class Auton_TalonPID extends Command {
 
 	private DriveTrain driveTrain;
 	
 
-    public Auton_PIDForwards() {
+    public Auton_TalonPID() {
         driveTrain = DriveTrain.getInstance();
         
         driveTrain.setBrakeMode();
