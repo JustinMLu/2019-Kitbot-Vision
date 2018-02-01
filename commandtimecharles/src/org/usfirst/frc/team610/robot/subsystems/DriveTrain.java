@@ -31,7 +31,7 @@ public class DriveTrain extends Subsystem {
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
 
-		left.setInverted(true);
+		left.setInverted(false); //
 		right.setInverted(true);
 
 		left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
@@ -44,7 +44,7 @@ public class DriveTrain extends Subsystem {
 		left.config_kF(0, 0, 10);
 		
 		
-		left.setSensorPhase(false);
+		left.setSensorPhase(true);
 
 		right.config_kP(0, 0.265, 10); //weird PID shit, have to halve it
 		right.config_kI(0, 0, 10);
@@ -69,7 +69,19 @@ public class DriveTrain extends Subsystem {
 	public void setPIDRight(double rotations) {
 		right.set(ControlMode.Position, rotations * 256 * 4); //BS 1024 "encoder units"
 	}
+	
+	public void setMagicLeft(double command) {
+		left.set(ControlMode.MotionMagic, command);
+	}
+	
+	public void setMagicRight(double command) {
+		right.set(ControlMode.MotionMagic, command);
+	}
 
+	//public double VelocityToNativeUnits() {
+		
+	//}
+	
 	public void setBrakeMode() {
 		left.setNeutralMode(NeutralMode.Brake);
 		right.setNeutralMode(NeutralMode.Brake);
