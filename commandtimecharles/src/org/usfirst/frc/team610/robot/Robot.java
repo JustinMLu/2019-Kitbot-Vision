@@ -13,6 +13,7 @@ import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.Intake;
 import org.usfirst.frc.team610.robot.commands.Auton_CommandPID;
 import org.usfirst.frc.team610.robot.commands.Auton_TalonPID;
+import org.usfirst.frc.team610.robot.commands.T_MagicDrive;
 import org.usfirst.frc.team610.robot.commands.Teleop;
 import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
 import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
@@ -29,6 +30,7 @@ public class Robot extends IterativeRobot {
 
 	CommandGroup teleop;
 	Command auton, customAuton;
+	Command magicTeleop;
 	
 	public static OI oi;
 	private DriveTrain driveTrain;
@@ -44,6 +46,8 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		
 		teleop = new Teleop();
+		magicTeleop = new T_MagicDrive();
+		
 		auton = new Auton_TalonPID();
 		customAuton = new Auton_CommandPID();
 		
@@ -76,7 +80,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit() {
-		teleop.cancel();
+		magicTeleop.cancel();
 		auton.start();
 		driveTrain.resetEnc();
 	}
@@ -88,7 +92,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		teleop.start();
+		magicTeleop.start();
 		auton.cancel();
 		driveTrain.resetEnc();
 	}

@@ -19,7 +19,7 @@ public class DriveTrain extends Subsystem {
 	private static DriveTrain instance;
 	private TalonSRX left, right;
 	
-	public int maxVelocity = 0; //PLACEHOLDER
+	public int maxVelocity = 815; //per 100ms
 
 	public static DriveTrain getInstance() {
 		if (instance == null) {
@@ -33,7 +33,7 @@ public class DriveTrain extends Subsystem {
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
 
-		left.setInverted(true); //
+		left.setInverted(true); 
 		right.setInverted(false);
 
 		left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);

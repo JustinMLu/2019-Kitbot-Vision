@@ -23,7 +23,7 @@ public class T_MagicDrive extends Command {
         
         requires(driveTrain);
         
-        driveTrain.setMagicPID(0.265, 0.0, 0.1, 255 / driveTrain.maxVelocity);
+        driveTrain.setMagicPID(1, 0, 0, 1023 / driveTrain.maxVelocity);
     }
 
     // Called just before this Command runs the first time
@@ -41,7 +41,7 @@ public class T_MagicDrive extends Command {
 		driveTrain.setMagicLeft(left);
 		driveTrain.setMagicRight(right);
 		
-		driveTrain.setLeftCruiseVel(driveTrain.maxVelocity, 10);
+		driveTrain.setLeftCruiseVel(driveTrain.maxVelocity, 10); //normally 10
 		driveTrain.setRightCruiseVel(driveTrain.maxVelocity, 10);
 		
 		driveTrain.setLeftAccel(driveTrain.maxVelocity, 10);
