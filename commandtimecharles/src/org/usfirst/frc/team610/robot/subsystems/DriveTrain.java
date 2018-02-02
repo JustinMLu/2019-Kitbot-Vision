@@ -18,6 +18,8 @@ public class DriveTrain extends Subsystem {
 
 	private static DriveTrain instance;
 	private TalonSRX left, right;
+	
+	public int maxVelocity = 0; //PLACEHOLDER
 
 	public static DriveTrain getInstance() {
 		if (instance == null) {
@@ -31,24 +33,24 @@ public class DriveTrain extends Subsystem {
 		left = new TalonSRX(ElectricalConstants.DRIVE_LEFT);
 		right = new TalonSRX(ElectricalConstants.DRIVE_RIGHT);
 
-		left.setInverted(false); //
-		right.setInverted(true);
+		left.setInverted(true); //
+		right.setInverted(false);
 
 		left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
 
-		left.config_kP(0, 0.265, 10);
+		left.config_kP(0, 0, 10);
 		left.config_kI(0, 0, 10);
-		left.config_kD(0, 0.1, 10);
+		left.config_kD(0, 0, 10);
 		left.config_kF(0, 0, 10);
 		
 		
 		left.setSensorPhase(true);
 
-		right.config_kP(0, 0.265, 10); //weird PID shit, have to halve it
+		right.config_kP(0, 0, 10); //weird PID shit, have to halve it
 		right.config_kI(0, 0, 10);
-		right.config_kD(0, 0.1, 10);
+		right.config_kD(0, 0, 10);
 		right.config_kF(0, 0, 10);
 		
 		right.setSensorPhase(true);
@@ -70,18 +72,56 @@ public class DriveTrain extends Subsystem {
 		right.set(ControlMode.Position, rotations * 256 * 4); //BS 1024 "encoder units"
 	}
 	
-	public void setMagicLeft(double command) {
-		left.set(ControlMode.MotionMagic, command);
+	public void setMagicLeft(double command) { //negative
+		left.set(ControlMode.MotionMagic, -command * maxVelocity);
 	}
 	
 	public void setMagicRight(double command) {
-		right.set(ControlMode.MotionMagic, command);
+		right.set(ControlMode.MotionMagic, command * maxVelocity);
+	}
+	
+	public void setLeftCruiseVel(int velocity, int timeoutMs) { //negative
+		left.configMotionCruiseVelocity(-velocity, timeoutMs);
+	}
+	
+	public void setRightCruiseVel(int velocity, int timeoutMs) {
+		right.configMotionCruiseVelocity(velocity, timeoutMs);
+	}
+	
+	public void setLeftAccel(int accel, int timeoutMs) { //negative
+		left.configMotionAcceleration(-accel, timeoutMs);
+	}
+	
+	public void setRightAccel(int accel, int timeoutMs) {
+		right.configMotionAcceleration(accel, timeoutMs);
 	}
 
-	//public double VelocityToNativeUnits() {
+	public void setMagicPID(double kp, double ki, double kd, double kf) {
 		
-	//}
+		left.config_kP(0, kp, 10); //0.265
+		left.config_kI(0, ki, 10); //0
+		left.config_kD(0, kd, 10); //0.1
+		left.config_kF(0, kf, 10); //0
+		
+		right.config_kP(0, kp, 10);
+		right.config_kI(0, ki, 10);
+		right.config_kD(0, kd, 10);
+		right.config_kF(0, kf, 10);
+	}
 	
+	public void setPID(double kp, double ki, double kd, double kf) {
+		
+		left.config_kP(0, kp, 10); //0.265
+		left.config_kI(0, ki, 10); //0
+		left.config_kD(0, kd, 10); //0.1
+		left.config_kF(0, kf, 10); //0
+		
+		right.config_kP(0, kp, 10);
+		right.config_kI(0, ki, 10);
+		right.config_kD(0, kd, 10);
+		right.config_kF(0, kf, 10);
+	}
+ 	
 	public void setBrakeMode() {
 		left.setNeutralMode(NeutralMode.Brake);
 		right.setNeutralMode(NeutralMode.Brake);
@@ -118,7 +158,6 @@ public class DriveTrain extends Subsystem {
 	public double getRightRPM() {
 		return right.getSelectedSensorVelocity(0) * 600 / 256 / 4.0;
 	}
-	
 
 	public double getLeftRotations() {
 		return left.getSelectedSensorPosition(0) / (256 * 4.0);
