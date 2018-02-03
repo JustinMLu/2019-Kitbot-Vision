@@ -5,6 +5,7 @@ import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -38,14 +39,15 @@ public class T_MagicDrive extends Command {
 		left = (x - y);
 		right = (x + y);
 		
-		driveTrain.setMagicLeft(left);
-		driveTrain.setMagicRight(right);
+		driveTrain.setVelocityLeft(left);
+		driveTrain.setVelocityRight(right);
 		
 		driveTrain.setLeftCruiseVel(driveTrain.maxVelocity, 10); //normally 10
 		driveTrain.setRightCruiseVel(driveTrain.maxVelocity, 10);
 		
 		driveTrain.setLeftAccel(driveTrain.maxVelocity, 10);
 		driveTrain.setRightAccel(driveTrain.maxVelocity, 10);
+		
     }
 
     // Make this return true when this Command no longer needs to run execute()

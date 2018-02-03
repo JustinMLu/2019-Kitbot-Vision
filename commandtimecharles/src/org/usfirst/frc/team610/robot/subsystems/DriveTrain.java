@@ -72,12 +72,12 @@ public class DriveTrain extends Subsystem {
 		right.set(ControlMode.Position, rotations * 256 * 4); //BS 1024 "encoder units"
 	}
 	
-	public void setMagicLeft(double command) { //negative
-		left.set(ControlMode.MotionMagic, -command * maxVelocity);
+	public void setVelocityLeft(double command) { //negative
+		left.set(ControlMode.Velocity, -command * maxVelocity);
 	}
 	
-	public void setMagicRight(double command) {
-		right.set(ControlMode.MotionMagic, command * maxVelocity);
+	public void setVelocityRight(double command) {
+		right.set(ControlMode.Velocity, command * maxVelocity);
 	}
 	
 	public void setLeftCruiseVel(int velocity, int timeoutMs) { //negative
