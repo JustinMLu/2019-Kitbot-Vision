@@ -46,14 +46,14 @@ public class DriveTrain extends Subsystem {
 		left.config_kF(0, 0, 10);
 		
 		
-		left.setSensorPhase(true);
+		left.setSensorPhase(false);
 
 		right.config_kP(0, 0, 10); //weird PID shit, have to halve it
 		right.config_kI(0, 0, 10);
 		right.config_kD(0, 0, 10);
 		right.config_kF(0, 0, 10);
 		
-		right.setSensorPhase(true);
+		right.setSensorPhase(false);
 	}
 
 	public void setLeft(double speed) {
@@ -73,11 +73,11 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setVelocityLeft(double command) { //negative
-		left.set(ControlMode.Velocity, -command * maxVelocity);
+		left.set(ControlMode.Velocity, -command); //-command * maxVelocity
 	}
 	
 	public void setVelocityRight(double command) {
-		right.set(ControlMode.Velocity, command * maxVelocity);
+		right.set(ControlMode.Velocity, command); //command * maxVelocity 
 	}
 	
 	public void setLeftCruiseVel(int velocity, int timeoutMs) { //negative
@@ -167,7 +167,14 @@ public class DriveTrain extends Subsystem {
 		return right.getSelectedSensorPosition(0) / (256 * 4.0);
 	}
 	
-
+	public double getLeftVelocity() {
+		return left.getSelectedSensorVelocity(0);
+	}
+	
+	public double getRightVelocity() {
+		return right.getSelectedSensorVelocity(0);
+	}
+	
 	public void resetEnc() {
 		left.setSelectedSensorPosition(0, 0, 10);
 		right.setSelectedSensorPosition(0, 0, 10);

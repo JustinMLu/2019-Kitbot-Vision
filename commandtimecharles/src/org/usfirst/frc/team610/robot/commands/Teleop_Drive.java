@@ -54,13 +54,11 @@ public class Teleop_Drive extends Command {
 		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
 		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations());
 		
-		SmartDashboard.putNumber("NavX Angle:", navX.getAngle());
+		SmartDashboard.putNumber("Left RPM:", driveTrain.getLeftRPM());
+		SmartDashboard.putNumber("Right RPM:", driveTrain.getRightRPM());
 		
-		SmartDashboard.putNumber("VelocityX:", navX.getVelocityX());
-		SmartDashboard.putNumber("VelocityY:", navX.getVelocityY());
-		SmartDashboard.putNumber("VelocityZ:", navX.getVelocityZ());
-		
-		System.out.println("NavX:" + navX.getAngle());	
+		SmartDashboard.putNumber("Left V:", driveTrain.getLeftVelocity());
+		SmartDashboard.putNumber("Right V:", driveTrain.getRightVelocity());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -15,7 +15,8 @@ public class T_MagicDrive extends Command {
 	private DriveTrain driveTrain;
 	private OI oi;
 	double y, x;
-	double left, right;
+	double left, right; 
+	double leftTargetVelocity, rightTargetVelocity;
 	
     public T_MagicDrive() {
         driveTrain = DriveTrain.getInstance();
@@ -24,7 +25,7 @@ public class T_MagicDrive extends Command {
         
         requires(driveTrain);
         
-        driveTrain.setMagicPID(1, 0, 0, 1023 / driveTrain.maxVelocity);
+        driveTrain.setMagicPID(1, 0, 0, (1023 / driveTrain.maxVelocity));
     }
 
     // Called just before this Command runs the first time
@@ -33,14 +34,24 @@ public class T_MagicDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     		y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y); //LogitechF310Constants.AXIS_LEFT_Y
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X); //LogitechF310Constants.AXIS_RIGHT_X
     	
 		left = (x - y);
 		right = (x + y);
 		
-		driveTrain.setVelocityLeft(left);
-		driveTrain.setVelocityRight(right);
+		/*
+		255 Units/Rev * 500 RPM / 600 100ms/min in either direction:
+		velocity setpoint is in units/100ms
+		*/
+		
+		//experimental calculations
+		leftTargetVelocity = left * 255 * 465.0 / 600; 
+		rightTargetVelocity = right * 255 * 510.0 / 600;
+		
+		driveTrain.setVelocityLeft(leftTargetVelocity);
+		driveTrain.setVelocityRight(rightTargetVelocity);
 		
 		driveTrain.setLeftCruiseVel(driveTrain.maxVelocity, 10); //normally 10
 		driveTrain.setRightCruiseVel(driveTrain.maxVelocity, 10);
@@ -48,6 +59,17 @@ public class T_MagicDrive extends Command {
 		driveTrain.setLeftAccel(driveTrain.maxVelocity, 10);
 		driveTrain.setRightAccel(driveTrain.maxVelocity, 10);
 		
+		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
+		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
+		
+		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
+		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations());
+		
+		SmartDashboard.putNumber("Left RPM:", driveTrain.getLeftRPM());
+		SmartDashboard.putNumber("Right RPM:", driveTrain.getRightRPM());
+		
+		SmartDashboard.putNumber("Left V:", driveTrain.getLeftVelocity());
+		SmartDashboard.putNumber("Right V:", driveTrain.getRightVelocity());		
     }
 
     // Make this return true when this Command no longer needs to run execute()
