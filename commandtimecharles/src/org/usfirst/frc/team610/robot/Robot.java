@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	@Override
-	public void disabledInit() {
+	public void disabledInit() { //nothing
 	}
 
 	@Override
