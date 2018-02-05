@@ -10,32 +10,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class T_MagicDrive extends Command {
+public class T_VelocityDrive extends Command {
 
 	private DriveTrain driveTrain;
 	private OI oi;
 	double y, x;
 	double left, right; 
 	double leftTargetVelocity, rightTargetVelocity, leftTargetPos, rightTargetPos;
-	double driveMultiplier;
 	
-    public T_MagicDrive() {
+    public T_VelocityDrive() {
         driveTrain = DriveTrain.getInstance();
-        driveTrain.setCoastMode();
+        driveTrain.setBrakeMode();
         oi = OI.getInstance();
         
         requires(driveTrain);
         
-        driveTrain.setLeftMagicPID(10, 0, 0, 1.294); //1.27875
-        driveTrain.setRightMagicPID(10, 0, 0, 1.294);
+        driveTrain.setLeftMagicPID(0, 0, 0, 1.294);
+        driveTrain.setRightMagicPID(0, 0, 0, 1.183);
         
-		driveTrain.setLeftCruiseVel(800, 10); //normally 600 (75%), maxVel is usually measured at 800
-		driveTrain.setRightCruiseVel(800, 10);
+        driveTrain.setLeftCruiseVel(600, 10); 
+		driveTrain.setRightCruiseVel(649, 10);
 		
-		driveTrain.setLeftAccel(50000, 10); //normally 600 (75%), maxVel is usually measured at 800
-		driveTrain.setRightAccel(50000, 10);
-		
-		driveMultiplier = 10; 
+		driveTrain.setLeftAccel(600, 10);
+		driveTrain.setRightAccel(649, 10);
     }
 
     // Called just before this Command runs the first time
@@ -47,33 +44,25 @@ public class T_MagicDrive extends Command {
     	
     		y = -oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y); //LogitechF310Constants.AXIS_LEFT_Y
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X); //LogitechF310Constants.AXIS_RIGHT_X
-    		
-		//deadzone
-		if (y < 0.1 && y > -0.1) {
-			y = 0;
-		}
-		
-		if (x < 0.1 && x > -0.1) {
-			x = 0;
-		}
-		
+    	
 		left = (y + x);
 		right = (y - x);
 		
+		/*
+		Joystick Input * 255 Units/Rev * 10 rotations in either direction
+		*/
+		
+		leftTargetVelocity = left * driveTrain.leftMaxVelocity; //original: left * 1024 * 465.0 / 600;
+		rightTargetVelocity = right * driveTrain.rightMaxVelocity; //original: right * 1024 * 510.0 / 600
+		
 		//position = velocity * time
-		leftTargetPos = left * left * left * 1024 * driveMultiplier + (driveTrain.getLeftTicks() * 4); //originally: left * 1024 * 10.0
-		rightTargetPos = right * right * right * 1024 * driveMultiplier + (driveTrain.getRightTicks() * 4); 
+		leftTargetPos = left * 1024 * 10.0; //left * 255 * 10.0
+		rightTargetPos = right * 1024 * 10.0; 
+		
+		driveTrain.setVelocityLeft(leftTargetVelocity); //accepts POSITION as a param
+		driveTrain.setVelocityRight(rightTargetVelocity); //rightTargetPos
 		
 		
-		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_A) == true) {
-			driveTrain.setLeft(1.0); 
-			driveTrain.setRight(1.0); //goes full speddy boi
-		}
-		else {
-			driveTrain.setMagicLeft(leftTargetPos); 
-			driveTrain.setMagicRight(rightTargetPos);
-		}
-
 		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
 		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
 		
@@ -88,7 +77,6 @@ public class T_MagicDrive extends Command {
 		
 		SmartDashboard.putNumber("Left TargetV:", leftTargetVelocity);
 		SmartDashboard.putNumber("Right TargetV:", rightTargetVelocity);
-		
     }
 
     // Make this return true when this Command no longer needs to run execute()

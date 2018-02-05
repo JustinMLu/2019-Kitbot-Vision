@@ -23,6 +23,8 @@ public class Auton_TalonPID extends Command {
         
         driveTrain.setClosedRampMode(0.27, 10);
         
+        driveTrain.setPID(0.265, 0, 0.1, 0);
+        
         requires(driveTrain);
     }
 

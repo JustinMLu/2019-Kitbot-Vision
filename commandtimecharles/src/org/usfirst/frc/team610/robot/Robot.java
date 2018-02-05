@@ -14,6 +14,7 @@ import org.usfirst.frc.team610.robot.subsystems.Intake;
 import org.usfirst.frc.team610.robot.commands.Auton_CommandPID;
 import org.usfirst.frc.team610.robot.commands.Auton_TalonPID;
 import org.usfirst.frc.team610.robot.commands.T_MagicDrive;
+import org.usfirst.frc.team610.robot.commands.T_VelocityDrive;
 import org.usfirst.frc.team610.robot.commands.Teleop;
 import org.usfirst.frc.team610.robot.commands.Teleop_Drive;
 import org.usfirst.frc.team610.robot.commands.Teleop_Intake;
@@ -30,7 +31,7 @@ public class Robot extends IterativeRobot {
 
 	CommandGroup teleop;
 	Command auton, customAuton;
-	Command magicTeleop;
+	Command magicTeleop, velTeleop;
 	
 	public static OI oi;
 	private DriveTrain driveTrain;
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		
 		teleop = new Teleop();
+		velTeleop = new T_VelocityDrive();
 		magicTeleop = new T_MagicDrive();
 		
 		auton = new Auton_TalonPID();
@@ -65,7 +67,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	@Override
-	public void disabledInit() {
+	public void disabledInit() { //nothing
 	}
 
 	@Override

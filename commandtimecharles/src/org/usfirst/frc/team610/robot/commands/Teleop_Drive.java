@@ -42,11 +42,11 @@ public class Teleop_Drive extends Command {
 	@Override
 	protected void execute() {
 		
-		y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y); //LogitechF310Constants.AXIS_LEFT_Y
+		y = -oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y); //LogitechF310Constants.AXIS_LEFT_Y
 		x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X); //LogitechF310Constants.AXIS_RIGHT_X
 		
-		driveTrain.setLeft(y - x); //set to -(y + x) if not working
-		driveTrain.setRight(y + x);
+		driveTrain.setLeft(y + x); 
+		driveTrain.setRight(y - x);
 		
 		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
 		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
@@ -54,13 +54,11 @@ public class Teleop_Drive extends Command {
 		SmartDashboard.putNumber("Left Enc Rotations:", driveTrain.getLeftRotations());
 		SmartDashboard.putNumber("Right Enc Rotations:", driveTrain.getRightRotations());
 		
-		SmartDashboard.putNumber("NavX Angle:", navX.getAngle());
+		SmartDashboard.putNumber("Left RPM:", driveTrain.getLeftRPM());
+		SmartDashboard.putNumber("Right RPM:", driveTrain.getRightRPM());
 		
-		SmartDashboard.putNumber("VelocityX:", navX.getVelocityX());
-		SmartDashboard.putNumber("VelocityY:", navX.getVelocityY());
-		SmartDashboard.putNumber("VelocityZ:", navX.getVelocityZ());
-		
-		System.out.println("NavX:" + navX.getAngle());	
+		SmartDashboard.putNumber("Left V:", driveTrain.getLeftVelocity());
+		SmartDashboard.putNumber("Right V:", driveTrain.getRightVelocity());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
