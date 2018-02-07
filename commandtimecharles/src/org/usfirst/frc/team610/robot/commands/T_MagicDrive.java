@@ -64,7 +64,7 @@ public class T_MagicDrive extends Command {
 		leftTargetPos = left * left * left * 1024 * driveMultiplier + (driveTrain.getLeftTicks() * 4);
 		rightTargetPos = right * right * right * 1024 * driveMultiplier + (driveTrain.getRightTicks() * 4); 
 		
-		driveTrain.setMagicLeft(leftTargetPos); 
+		driveTrain.setMagicLeft(leftTargetPos); //charle time charles
 		driveTrain.setMagicRight(rightTargetPos);
 
 		
