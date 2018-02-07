@@ -57,6 +57,14 @@ public class DriveTrain extends Subsystem {
 		right.setSensorPhase(true);
 	}
 
+	public TalonSRX getLeft() {
+		return left;
+	}
+	
+	public TalonSRX getRight() {
+		return right;
+	}
+	
 	public void setLeft(double speed) {
 		left.set(ControlMode.PercentOutput, speed);
 	}

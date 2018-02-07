@@ -57,8 +57,11 @@ public class Teleop_Drive extends Command {
 		SmartDashboard.putNumber("Left RPM:", driveTrain.getLeftRPM());
 		SmartDashboard.putNumber("Right RPM:", driveTrain.getRightRPM());
 		
-		SmartDashboard.putNumber("Left V:", driveTrain.getLeftVelocity());
-		SmartDashboard.putNumber("Right V:", driveTrain.getRightVelocity());
+		SmartDashboard.putNumber("Left SideV", driveTrain.getLeft().getMotorOutputVoltage() / 12.0);
+		SmartDashboard.putNumber("Left SideC", driveTrain.getLeft().getOutputCurrent());
+		
+		SmartDashboard.putNumber("Right SideV", driveTrain.getRight().getMotorOutputVoltage() / 12.0);
+		SmartDashboard.putNumber("Right SideC", driveTrain.getRight().getOutputCurrent());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

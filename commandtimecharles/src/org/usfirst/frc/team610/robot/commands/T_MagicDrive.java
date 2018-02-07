@@ -26,8 +26,8 @@ public class T_MagicDrive extends Command {
         
         requires(driveTrain);
         
-        driveTrain.setLeftMagicPID(10, 0, 0, 1.294); //1.27875
-        driveTrain.setRightMagicPID(10, 0, 0, 1.294);
+        driveTrain.setLeftMagicPID(2.5575, 0, 0, 1.294); //1.27875
+        driveTrain.setRightMagicPID(2.5575, 0, 0, 1.294);
         
 		driveTrain.setLeftCruiseVel(800, 10); //normally 600 (75%), maxVel is usually measured at 800
 		driveTrain.setRightCruiseVel(800, 10);
@@ -60,20 +60,14 @@ public class T_MagicDrive extends Command {
 		left = (y + x);
 		right = (y - x);
 		
-		//position = velocity * time
-		leftTargetPos = left * left * left * 1024 * driveMultiplier + (driveTrain.getLeftTicks() * 4); //originally: left * 1024 * 10.0
+		//left * 1024 ticks/rev * rotations + current ticks in 1024 format
+		leftTargetPos = left * left * left * 1024 * driveMultiplier + (driveTrain.getLeftTicks() * 4);
 		rightTargetPos = right * right * right * 1024 * driveMultiplier + (driveTrain.getRightTicks() * 4); 
 		
-		
-		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_A) == true) {
-			driveTrain.setLeft(1.0); 
-			driveTrain.setRight(1.0); //goes full speddy boi
-		}
-		else {
-			driveTrain.setMagicLeft(leftTargetPos); 
-			driveTrain.setMagicRight(rightTargetPos);
-		}
+		driveTrain.setMagicLeft(leftTargetPos); 
+		driveTrain.setMagicRight(rightTargetPos);
 
+		
 		SmartDashboard.putNumber("Left Enc Ticks:", driveTrain.getLeftTicks());
 		SmartDashboard.putNumber("Right Enc Ticks:", driveTrain.getRightTicks());
 		
@@ -86,8 +80,12 @@ public class T_MagicDrive extends Command {
 		SmartDashboard.putNumber("Left V:", driveTrain.getLeftVelocity());
 		SmartDashboard.putNumber("Right V:", driveTrain.getRightVelocity());
 		
-		SmartDashboard.putNumber("Left TargetV:", leftTargetVelocity);
-		SmartDashboard.putNumber("Right TargetV:", rightTargetVelocity);
+		SmartDashboard.putNumber("Left SideV", driveTrain.getLeft().getMotorOutputVoltage() / 12.0);
+		SmartDashboard.putNumber("Left SideC", driveTrain.getLeft().getOutputCurrent());
+		
+		SmartDashboard.putNumber("Right SideV", driveTrain.getRight().getMotorOutputVoltage() / 12.0);
+		SmartDashboard.putNumber("Right SideC", driveTrain.getRight().getOutputCurrent());
+		
 		
     }
 

@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit() {
-		magicTeleop.cancel();
+		teleop.cancel();
 		auton.start();
 		driveTrain.resetEnc();
 	}
@@ -94,7 +94,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		magicTeleop.start();
+		teleop.start();
 		auton.cancel();
 		driveTrain.resetEnc();
 	}
