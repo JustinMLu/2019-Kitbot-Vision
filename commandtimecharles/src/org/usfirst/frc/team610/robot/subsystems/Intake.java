@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {  
 
 	public static Intake instance;
-	private TalonSRX leftIntake, rightIntake;
+	public  TalonSRX leftIntake;
+	public  TalonSRX rightIntake;
 	
 	
 	public static Intake getInstance() {
@@ -28,6 +29,9 @@ public class Intake extends Subsystem {
 		leftIntake = new TalonSRX(ElectricalConstants.INTAKE_LEFT);
 		rightIntake = new TalonSRX(ElectricalConstants.INTAKE_RIGHT);
 	}
+	
+	
+	
 	
 	public void setIntake(double speed) {
 		leftIntake.set(ControlMode.PercentOutput, speed);
@@ -54,6 +58,17 @@ public class Intake extends Subsystem {
 		rightIntake.set(ControlMode.PercentOutput, 0);
 		
 	}
+
+
+	public TalonSRX getLeftIntake() {
+			return leftIntake;
+	}
+	public TalonSRX getRightIntake() {
+		return  rightIntake;
+	}
+	
+
+
 	
 }
 
