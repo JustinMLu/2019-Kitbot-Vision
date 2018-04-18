@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team610.robot.subsystems.NavX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -17,7 +16,7 @@ public class Teleop_Drive extends Command {
 	
 	private OI oi;
 	private DriveTrain driveTrain;
-	private NavX navX;
+
 	
 	double y;
 	double x;
@@ -25,13 +24,9 @@ public class Teleop_Drive extends Command {
 	public Teleop_Drive() {
 		oi = OI.getInstance(); 
 		driveTrain = DriveTrain.getInstance();
-		navX = NavX.getInstance();
 		
 		driveTrain.setBrakeMode();
-		navX.reset();
-		navX.resetYaw();
-		
-		requires(navX);
+	
 		requires(driveTrain);
 	}
 	
