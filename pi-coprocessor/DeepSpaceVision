@@ -1,0 +1,81 @@
+import cv2
+import numpy as np
+
+HSV_THRESH_MIN = np.array([0,0,220])
+HSV_THRESH_MAX = np.array([100,60,255])
+
+W_TO_H_MIN = 0.30
+W_TO_H_MAX = 0.60
+
+RECT_AREA_MIN = 600
+RECT_AREA_MAX = 6000
+
+CNT_AREA_RATIO_MIN = 0.95
+CNT_AREA_RATIO_MAX = 1.25
+
+CANNY_THRESH_MIN = 60
+CANNY_THRESH_MAX = 255
+
+kernel = np.ones((5,5), np.uint8)
+
+img_prop_order = ['x_y', 'w_h', 'angle']
+
+def is_valid_area(area):
+    return RECT_AREA_MIN <= area <= RECT_AREA_MAX
+
+def is_valid_rectangle(ratio):
+    return W_TO_H_MIN <= ratio <= W_TO_H_MAX
+
+def is_accurate_contour(ratio):
+    return CNT_AREA_RATIO_MIN <= ratio <= CNT_AREA_RATIO_MAX
+
+def detect_contours(raw_img):
+    hsv = cv2.cvtColor(raw_img, cv2.COLOR_BGR2HSV)
+    mask = cv2.inRange(hsv, HSV_THRESH_MIN, HSV_THRESH_MAX)
+    mask2 = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+    mask3 = cv2.morphologyEx(mask2, cv2.MORPH_CLOSE, kernel) # gets rid of lil dots
+    canny = cv2.Canny(mask3, CANNY_THRESH_MIN, CANNY_THRESH_MAX)
+    _, contours, _ = cv2.findContours(canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    return contours
+
+#zips/matches the list of strings to their respective properties, then adds to dict
+def generate_properties(contour):
+    cnt_props = {k:v for k,v in zip(img_prop_order, cv2.minAreaRect(contour))}
+    cnt_props['area'] = np.multiply(*cnt_props['w_h'])
+    cnt_props['cnt_area'] = cv2.contourArea(contour)
+    cnt_props['w_h_ratio'] = np.true_divide(*sorted(cnt_props['w_h'])) if not 0 in payload['w_h'] else 0
+    cnt_props['area_ratio'] = np.true_divide(cnt_props['area'], cnt_props['cnt_area']) if cnt_props['area_cnt'] != 0 and cnt_props['area'] != 0 else 0
+
+    return cnt_props
+
+def filter_contours(contours):
+    contour_prop_list = []
+
+    for cnt in contours:
+        contour_prop_list.append(generate_properties(cnt))
+
+    return contour_prop_list
+
+#returns list of booleans - if contour matches all checks, boolean at that index is true
+def check_contours(contour_data):
+    valid_bool_list = []
+
+    for cnt in contour_data:
+        valid_bool_list.append(all([is_valid_area(cnt['cnt_area']), is_valid_rectangle(cnt['w_h_ratio']), is_accurate_contour(cnt['area_ratio'])]))
+
+    return valid_bool_list
+
+def find_valid_contours(contour_list, bool_list):
+    if len(bool_list) != 2:
+        return None
+    else:
+        top_contours = []
+        zipped_contours = zip(bool_list, contour_list)
+
+        for cnt in zipped_contours:
+            if cnt[0]:
+                top_contours.append(cnt[1])
+
+    return top_contours
+
